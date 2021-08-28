@@ -13,7 +13,7 @@ class ConfigUtils
     puts "Note: I have created some default values for easily getting started."
     puts "Press enter for using default value."
 
-    @configs = File.exist?(CONFIG_PATH) ? ConfigUtils::get_configs : {}
+    @configs = File.exist?(CONFIG_PATH) ? self.class.get_configs : {}
     @env = "dev"
   end
 
