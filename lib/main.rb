@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require "optparse"
-require_relative "./config_utils.rb"
-require_relative "./global.rb"
-require_relative "./http_client.rb"
+require_relative "./config_utils"
+require_relative "./global"
+require_relative "./http_client"
 
 def main
   Whirly.configure spinner: "dots"
@@ -18,19 +20,14 @@ def parse_options
     opts.banner = "Usage:  #{File.basename($PROGRAM_NAME)} [OPTIONS] OTHER_ARGS"
     opts.separator ""
     opts.separator "Specific Options:"
-
     opts.separator "Common Options:"
-
     opts.on("-h", "--help", "Show this message.") do
       puts opts
       exit
     end
-
     opts.on("--env VALUE", "Environment name") do |e|
-      Global::OPTIONS[:env] = e
-      p e
+      Global.class.options[:env] = e
     end
-
     begin
       opts.parse!
     rescue StandardError => e
@@ -45,11 +42,7 @@ def parse_command(command)
   when "init"
     init
   when "get"
-    if ARGV.length >= 2
-      HttpClient::get_request
-    else
-      puts "Pass an endpoint. Eg., apibotrb get /check-weather"
-    end
+    send_get_request
   when "put"
     puts "Put request executing"
   when "post"
@@ -68,6 +61,14 @@ def init
   config_util.get_auth_token_header_key
   config_util.get_auth_token_header_value
   config_util.save_config_as_json
+end
+
+def send_get_request
+  if ARGV.length >= 2
+    HttpClient.class.get_request
+  else
+    puts "Pass an endpoint. Eg., apibotrb get /check-weather"
+  end
 end
 
 main

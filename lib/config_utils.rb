@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "json"
 require "fileutils"
 
@@ -13,11 +15,11 @@ class ConfigUtils
     puts "Note: I have created some default values for easily getting started."
     puts "Press enter for using default value."
 
-    @configs = File.exist?(CONFIG_PATH) ? self.class.get_configs : {}
+    @configs = File.exist?(CONFIG_PATH) ? ConfigUtils.class.read_configs : {}
     @env = "dev"
   end
 
-  def self.get_configs
+  def self.read_configs
     config = File.open CONFIG_PATH
     config_json = JSON.load config
     config.close
@@ -25,7 +27,7 @@ class ConfigUtils
   end
 
   def self.get_config(env:)
-    ConfigUtils::get_configs[env]
+    ConfigUtils.class.read_configs[env]
   end
 
   def get_environment

@@ -1,21 +1,23 @@
+# frozen_string_literal: true
+
 require "httparty"
-require_relative "./global.rb"
-require_relative "./config_utils.rb"
+require_relative "./global"
+require_relative "./config_utils"
 require "json"
-require 'whirly'
-require 'paint'
+require "whirly"
+require "paint"
 
 class HttpClient
   include HTTParty
-  config = ConfigUtils::get_config(env: Global::OPTIONS[:env])
+  config = ConfigUtils.class.get_config(env: Global.class.options[:env])
   base_uri config["base_url"]
   headers config["headers"]
 
   def self.get_request
     Whirly.start do
       Whirly.status = "Loading..."
-      response = HttpClient::get(ARGV[1])
-      HttpClient::pretty_print(response)
+      response = HttpClient.class.get(ARGV[1])
+      HttpClient.class.pretty_print(response)
     end
   end
 
