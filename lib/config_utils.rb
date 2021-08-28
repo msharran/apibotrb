@@ -7,7 +7,7 @@ class ConfigUtils
 
   attr_accessor :configs
 
-  def initialize()
+  def initialize
     puts "Hi, I am ApiBot!"
     puts "You can have multiple environments of API requests and easily switch between them. To create an environment please follow the steps,\n"
     puts "Note: I have created some default values for easily getting started."
@@ -28,32 +28,32 @@ class ConfigUtils
     ConfigUtils::get_configs[env]
   end
 
-  def get_environment()
+  def get_environment
     puts "Enter the environment name: [dev]"
     env = STDIN.gets.chomp
     @env = env if env.empty? == false
     @configs[@env] = {} if @configs.key?(@env) == false
   end
 
-  def get_base_url()
+  def get_base_url
     puts "Enter the Base URL: ['']"
     env = STDIN.gets.chomp
     @configs[@env]["base_url"] = env.empty? ? "" : env
   end
 
-  def get_auth_token_header_key()
+  def get_auth_token_header_key
     puts "Enter the authorization token header key: [Authorization]"
     env = STDIN.gets.chomp
     @configs[@env]["token_key"] = env.empty? ? "Authorization" : env
   end
 
-  def get_auth_token_header_value()
+  def get_auth_token_header_value
     puts "Enter the authorization token header value. Eg., Bearer asda23245tfasd: ['']"
     env = STDIN.gets.chomp
     @configs[@env]["token_value"] = env.empty? ? "" : env
   end
 
-  def save_config_as_json()
+  def save_config_as_json
     FileUtils.mkdir_p CONFIG_DIR
     File.open(CONFIG_PATH, "w") do |config|
       config.write(JSON.pretty_generate(@configs))
