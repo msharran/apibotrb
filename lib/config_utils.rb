@@ -11,11 +11,12 @@ class ConfigUtils
 
   def initialize
     puts "Hi, I am ApiBot!"
-    puts "You can have multiple environments of API requests and easily switch between them. To create an environment please follow the steps,\n"
+    print "You can have multiple environments of API requests and easily switch between them. "
+    puts "To create an environment please follow the steps,\n"
     puts "Note: I have created some default values for easily getting started."
     puts "Press enter for using default value."
 
-    @configs = File.exist?(CONFIG_PATH) ? ConfigUtils.class.read_configs : {}
+    @configs = File.exist?(CONFIG_PATH) ? ConfigUtils.read_configs : {}
     @env = "dev"
   end
 
@@ -23,35 +24,35 @@ class ConfigUtils
     config = File.open CONFIG_PATH
     config_json = JSON.load config
     config.close
-    return config_json
+    config_json
   end
 
   def self.get_config(env:)
-    ConfigUtils.class.read_configs[env]
+    ConfigUtils.read_configs[env]
   end
 
   def get_environment
     puts "Enter the environment name: [dev]"
-    env = STDIN.gets.chomp
+    env = $stdin.gets.chomp
     @env = env if env.empty? == false
     @configs[@env] = {} if @configs.key?(@env) == false
   end
 
   def get_base_url
     puts "Enter the Base URL: ['']"
-    env = STDIN.gets.chomp
+    env = $stdin.gets.chomp
     @configs[@env]["base_url"] = env.empty? ? "" : env
   end
 
   def get_auth_token_header_key
     puts "Enter the authorization token header key: [Authorization]"
-    env = STDIN.gets.chomp
+    env = $stdin.gets.chomp
     @configs[@env]["token_key"] = env.empty? ? "Authorization" : env
   end
 
   def get_auth_token_header_value
     puts "Enter the authorization token header value. Eg., Bearer asda23245tfasd: ['']"
-    env = STDIN.gets.chomp
+    env = $stdin.gets.chomp
     @configs[@env]["token_value"] = env.empty? ? "" : env
   end
 

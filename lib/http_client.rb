@@ -9,15 +9,15 @@ require "paint"
 
 class HttpClient
   include HTTParty
-  config = ConfigUtils.class.get_config(env: Global.class.options[:env])
+  config = ConfigUtils.get_config(env: Global::OPTIONS[:env])
   base_uri config["base_url"]
   headers config["headers"]
 
   def self.get_request
     Whirly.start do
       Whirly.status = "Loading..."
-      response = HttpClient.class.get(ARGV[1])
-      HttpClient.class.pretty_print(response)
+      response = HttpClient.get(ARGV[1])
+      HttpClient.pretty_print(response)
     end
   end
 

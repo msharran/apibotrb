@@ -26,7 +26,7 @@ def parse_options
       exit
     end
     opts.on("--env VALUE", "Environment name") do |e|
-      Global.class.options[:env] = e
+      Global::OPTIONS[:env] = e
     end
     begin
       opts.parse!
@@ -65,7 +65,7 @@ end
 
 def send_get_request
   if ARGV.length >= 2
-    HttpClient.class.get_request
+    HttpClient.get_request
   else
     puts "Pass an endpoint. Eg., apibotrb get /check-weather"
   end
